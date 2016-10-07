@@ -9,5 +9,7 @@ class Rankings:
         self.__prefs = prefs2
     def prefers(self, person, other, other2):
         return self.__prefs[person].prefers(other, other2)
+    def all_preferred(self, person, other):
+        return self.__prefs[person].all_preferred_to(other)
     def __repr__(self):
-        return "StableMarriageInput(%s, %s)" % (self.__prefs)
+        return "Rankings(%s)" % (self.__prefs)
