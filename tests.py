@@ -38,7 +38,7 @@ class PreferenceTests(unittest.TestCase):
         self.assertFalse(p.prefers('B', 'A'))
         self.assertEqual({'A'}, set(p.all_preferred_to('B')))
 
-class StochasticInput(unittest.TestCase):
+class RankingTest(unittest.TestCase):
     def test_rankings(self):
         rank = Rankings({1:['A', 'B'], 2:['A', 'B'], 'A':[2, 1], 'B':[2, 1]})
         self.assertTrue(rank.prefers(1, 'A', 'B'))
