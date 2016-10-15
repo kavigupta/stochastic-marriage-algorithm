@@ -58,7 +58,7 @@ class StochasticInput(unittest.TestCase):
 class PairingTest(unittest.TestCase):
     def test_pairing_people(self):
         init = Pairing((1, 'B'), (2, 'A'), (3, 'C'))
-        self.assertEqual({1, 'B', 2, 'A', 3, 'C'}, set(init.people))
+        self.assertEqual({1, 2, 3}, set(init.first_group))
 
 class RoguesTest(unittest.TestCase):
     def test_rogues(self):
@@ -82,6 +82,7 @@ class AlgorithmTests(unittest.TestCase):
                 'B' : [2, 1]
             })
         init = Pairing((1, 'B'), (2, 'A'))
-        self.assertEqual(Pairing((1, 'A'), (2, 'B')), stochastic_marriage(rank, init))
+        final_pairing, _ = stochastic_marriage(rank, init)
+        self.assertEqual(Pairing((1, 'A'), (2, 'B')), final_pairing)
 
 unittest.main()
