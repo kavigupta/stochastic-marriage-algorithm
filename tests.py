@@ -59,6 +59,20 @@ class PairingTest(unittest.TestCase):
     def test_pairing_people(self):
         init = Pairing((1, 'B'), (2, 'A'), (3, 'C'))
         self.assertEqual({1, 2, 3}, set(init.first_group))
+    def test_pairing_partner_of(self):
+        init = Pairing((1, 'B'), (2, 'A'), (3, 'C'))
+        self.assertEqual(1, init.partner_of('B'))
+        self.assertEqual(2, init.partner_of('A'))
+        self.assertEqual(3, init.partner_of('C'))
+        self.assertEqual('C', init.partner_of(3))
+        self.assertRaises(KeyError, lambda: init.partner_of('D'))
+    def test_string_keys(self):
+        init = Pairing(('1', 'B'), ('2', 'A'), ('3', 'C'))
+        self.assertEqual('1', init.partner_of('B'))
+        self.assertEqual('2', init.partner_of('A'))
+        self.assertEqual('3', init.partner_of('C'))
+        self.assertEqual('C', init.partner_of('3'))
+        self.assertRaises(KeyError, lambda: init.partner_of(1))
 
 class RoguesTest(unittest.TestCase):
     def test_rogues(self):
