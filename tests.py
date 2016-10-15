@@ -56,11 +56,16 @@ class RankingTest(unittest.TestCase):
         self.assertEqual({2}, set(rank.all_preferred('A', 1)))
 
 class PairingTest(unittest.TestCase):
+    @property
+    def eg_tuple(self):
+        return (1, 'B'), (2, 'A'), (3, 'C')
+    @property
+    def eg_pairing(self):
+        return Pairing(*self.eg_tuple)
     def test_pairing_people(self):
-        init = Pairing((1, 'B'), (2, 'A'), (3, 'C'))
-        self.assertEqual({1, 2, 3}, set(init.first_group))
+        self.assertEqual({1, 2, 3}, set(self.eg_pairing.first_group))
     def test_pairing_partner_of(self):
-        init = Pairing((1, 'B'), (2, 'A'), (3, 'C'))
+        init = self.eg_pairing
         self.assertEqual(1, init.partner_of('B'))
         self.assertEqual(2, init.partner_of('A'))
         self.assertEqual(3, init.partner_of('C'))
@@ -73,6 +78,22 @@ class PairingTest(unittest.TestCase):
         self.assertEqual('3', init.partner_of('C'))
         self.assertEqual('C', init.partner_of('3'))
         self.assertRaises(KeyError, lambda: init.partner_of(1))
+    def test_iter(self):
+        pairs = self.eg_tuple
+        init = Pairing(*pairs)
+        self.assertEqual(set(pairs), set(init))
+    def test_pair(self):
+        init = self.eg_pairing
+        init.pair(1, 'C')
+        self.assertEqual('C', init.partner_of(1))
+        self.assertEqual(1, init.partner_of('C'))
+        self.assertEqual('B', init.partner_of(3))
+        self.assertEqual(3, init.partner_of('B'))
+        init.pair(2, 'C')
+        self.assertEqual('C', init.partner_of(2))
+        self.assertEqual(2, init.partner_of('C'))
+        self.assertEqual('A', init.partner_of(1))
+        self.assertEqual(1, init.partner_of('A'))
 
 class RoguesTest(unittest.TestCase):
     def test_rogues(self):

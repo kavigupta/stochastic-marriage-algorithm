@@ -19,5 +19,7 @@ class Pairing:
         return astar, bstar
     def __eq__(self, other):
         return self.__pairing == other.__pairing # pylint: disable=W0212
+    def __iter__(self):
+        return iter((p, self.partner_of(p)) for p in self.first_group)
     def __repr__(self):
-        return "Pairing%s" % (tuple((p, self.partner_of(p)) for p in self.first_group),)
+        return "Pairing%s" % (tuple(self),)
