@@ -12,7 +12,7 @@ class Preferences:
             if self.prefers(person, other):
                 yield person
     def __iter__(self):
-        rank_person = [(person, rank) for rank, person in self.__prefs.items()]
-        return reversed([person for _, person in sorted(rank_person)])
+        rank_person = ((person, rank) for rank, person in self.__prefs.items())
+        return reversed(tuple(person for _, person in sorted(rank_person)))
     def __repr__(self):
         return "Preferences(%r)" % list(self)
